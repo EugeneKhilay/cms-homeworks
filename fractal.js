@@ -1,3 +1,7 @@
+var canvas = document.getElementById('fractal');
+var ctx = canvas.getContext('2d');
+ctx.fillStyle = 'rgb(255, 0, 0)';
+
 function random() {
   return Math.floor(Math.random() * Math.floor(6) + 1)
 }
@@ -12,18 +16,18 @@ function newPos(angle, dotPos) {
       dotPos[i] += halfWay
     }
   })
+  ctx.fillRect(dotPos[0], dotPos[1], 1, 1);
   return dotPos;
 }
 
 function fractal (iteration, dotPos) {
   let triangle = {
-    a: [0, 0],
-    b: [50, 100],
-    c: [100, 10]
+    a: [10, 10],
+    b: [50, 140],
+    c: [140, 20]
   }
   for (let i = 0; i < iteration; i++) {
     let randomNum = random()
-    console.log('random: ', randomNum)
     if ( randomNum <= 2 ) {
       dotPos = newPos(triangle.a, dotPos)
     } else if ( randomNum >= 5 ) {
@@ -32,5 +36,4 @@ function fractal (iteration, dotPos) {
       dotPos = newPos(triangle.b, dotPos)
     }
   }
-  // return dotPos;
 }

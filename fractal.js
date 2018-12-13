@@ -1,9 +1,15 @@
-var canvas = document.getElementById('fractal');
-var ctx = canvas.getContext('2d');
-ctx.fillStyle = 'rgb(255, 0, 0)';
+let canvas = document.getElementById('fractal')
+let ctx = canvas.getContext('2d')
+ctx.fillStyle = 'rgb(255, 0, 0)'
+let fieldSizeX = Number(canvas.getAttribute('width'))
+let fieldSizeY = Number(canvas.getAttribute('height'))
 
-function random() {
-  return Math.floor(Math.random() * Math.floor(6) + 1)
+function canvasClear () {
+  ctx.clearRect(0, 0, fieldSizeX, fieldSizeX);
+}
+
+function random(value) {
+  return Math.floor(Math.random() * Math.floor(value))
 }
 
 function newPos(angle, dotPos) {
@@ -20,20 +26,16 @@ function newPos(angle, dotPos) {
   return dotPos;
 }
 
-function fractal (iteration, dotPos) {
-  let triangle = {
-    a: [10, 10],
-    b: [50, 140],
-    c: [140, 20]
+function fractal (iteration, topsQ, dotPos) {
+  canvasClear()
+  let topsCoordinates = [];
+
+  for ( let j = topsQ; j > 0; j-- ) {
+    topsCoordinates.push([random(fieldSizeX), random(fieldSizeY)]);
   }
+
   for (let i = 0; i < iteration; i++) {
-    let randomNum = random()
-    if ( randomNum <= 2 ) {
-      dotPos = newPos(triangle.a, dotPos)
-    } else if ( randomNum >= 5 ) {
-      dotPos = newPos(triangle.c, dotPos)
-    } else {
-      dotPos = newPos(triangle.b, dotPos)
-    }
+    let randomNum = random(topsQ)
+    dotPos = newPos(topsCoordinates[randomNum], dotPos);
   }
 }
